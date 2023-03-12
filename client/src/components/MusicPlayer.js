@@ -56,26 +56,26 @@ const MusicPlayer = () => {
           
             <button
               className='btn-effect'
-              onClick={prevSong}><i class='bx bx-skip-previous'></i></button>
+              onClick={prevSong}><i className='bx bx-skip-previous'></i></button>
             <button
               className='btn-effect'
               onClick={togglePlay}>
-              {playing ? <i class='bx bx-pause'></i> : <i class='bx bx-play'></i>}
+              {playing ? <i className='bx bx-pause'></i> : <i className='bx bx-play'></i>}
             </button>
             <button
               className='btn-effect'
-              onClick={nextSong}><i class='bx bx-skip-next'></i>
+              onClick={nextSong}><i className='bx bx-skip-next'></i>
             </button>
             <button
               onClick={toggleReplay}
               className={`btn-effect ${replay ? 'btn-replay-on' : 'btn-replay-off'}`}>
-              <i class='bx bx-repeat'></i>
+              <i className='bx bx-repeat'></i>
             </button>
             
             <VolumeBar
               className='btn-control'
-            volume={volume}
-            handleVolume={setCurrentVolume}
+              volume={volume}
+              handleVolume={setCurrentVolume}
             />
           
         </div>
@@ -84,7 +84,7 @@ const MusicPlayer = () => {
 
         <BtnModalForm
           textBtn='Add song'
-          icon={<i class='bx bx-plus-medical'></i>}
+          icon={<i className='bx bx-plus-medical'></i>}
           title='Add song'
           form={<FormSubmitAudio fetchData={fetchData}/>}
           >

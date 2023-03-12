@@ -11,7 +11,7 @@ const BtnPlayOrPause = ({handlePlay, isPlaying, isSelectedSong}) => {
           boxShadow: isSelectedSong ? '7px 6px 28px 1px rgba(190, 16, 16, 0.8)' : ''
         }}
         >
-        <i class={ isPlaying ? 'bx bx-pause' : 'bx bx-play' }></i>
+        <i className={ isPlaying ? 'bx bx-pause' : 'bx bx-play' }></i>
       </button> 
     );
   }

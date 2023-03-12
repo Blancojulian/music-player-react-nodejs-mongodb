@@ -4,6 +4,7 @@ const useAudio = () => {
 
     const audioElem = useRef(null);
     const flagPlaying = useRef(false);
+    const index = useRef(null);
 
     const [playing, setPlaying] = useState(false);
     const [replay, setReplay] = useState(false);
@@ -13,10 +14,8 @@ const useAudio = () => {
 
     const [volume, setVolume] = useState(audioElem.current ? audioElem.current.volume : 1);
 
-
     const [selectedSong, setSelectedSong] = useState(null);
     const [songs, setSongs] = useState([]);
-    const [index, setIndex] = useState('');
 
 
     const togglePlay = () => {
@@ -24,7 +23,8 @@ const useAudio = () => {
         if (selectedSong == null && songs.length > 0) {
 
             flagPlaying.current = true;
-            setIndex(0);
+            index.current = 0;
+            setSelectedSong(songs[0]);
 
         } else if (songs.length > 0) {
 
@@ -53,7 +53,7 @@ const useAudio = () => {
                 audioElem.current.src = `https://prueba-sv-mp.blancojulian.repl.co/api/song/${id}`;
                 await audioElem.current.load();
                 await audioElem.current.play();
-                await setPlaying(true);
+                setPlaying(true);
 
             }
 
@@ -80,21 +80,22 @@ const useAudio = () => {
 
     }
 
-    const nextSong = () => {
-        if (index !== '' && songs.length > 0 && selectedSong != null) {
+    const nextSong = () => {        
 
-            const i = index + 1 >= songs.length ? 0 : index + 1;
-            i === index && !playing ? setPlaying(true) : setIndex(i);
+        if (index.current != null && songs.length > 0 && selectedSong != null) {
 
+            index.current = index.current + 1 >= songs.length ? 0 : index.current + 1;
+            songs.length === 1 ? audioElem.current.currentTime = 0 : setSelectedSong(songs[index.current]);
+            
         }
     }
 
     const prevSong = () => {
 
-        if (index !== '' && songs.length > 0 && selectedSong != null) {
+        if (index.current != null && songs.length > 0 && selectedSong != null) {
 
-            const i = index - 1 < 0 ? songs.length - 1 : index - 1;
-            i === index && !playing ? setPlaying(true) : setIndex(i);
+            index.current = index.current - 1 < 0 ? songs.length - 1 : index.current - 1;
+            songs.length === 1 ? audioElem.current.currentTime = 0 : setSelectedSong(songs[index.current]);
 
         }
     }
@@ -104,10 +105,12 @@ const useAudio = () => {
         if (songs.length > 0) {
 
             const song = songs.find(song => song._id === id);
-            const index = songs.indexOf(song)
-            if (index > -1) {
+            const i = songs.indexOf(song);
+            
+            if (song) {
                 flagPlaying.current = true;
-                setIndex(index);
+                index.current = i;
+                setSelectedSong(song);
             };
 
         }
@@ -155,7 +158,6 @@ const useAudio = () => {
             const json = await data.json();
             setSongs(json);
 
-
         } catch (err) {
             console.log(err);
         }
@@ -163,12 +165,10 @@ const useAudio = () => {
     }
 
     useEffect(() => {
-        console.log('state playing: ' + playing)
 
         if (audioElem.current?.src !== '' && playing) {
             flagPlaying.current = true;
             audioElem.current.play();
-            console.log('playing')
         } else {
             flagPlaying.current = false;
             audioElem.current.pause();
@@ -180,7 +180,6 @@ const useAudio = () => {
         }
     }, [playing])
 
-    //ver si pide setSongs en la dependencia
     useEffect(() => {
 
         fetchData();
@@ -189,21 +188,13 @@ const useAudio = () => {
 
 
     useEffect(() => {
-
-        if (index !== '') {
-            const song = songs[index];
-            setSelectedSong(song);
-        }
-// eslint-disable-next-line
-    }, [index])
-
-    useEffect(() => {
         if (selectedSong != null) {
 
             flagPlaying.current ? selectSourceAndPlay(selectedSong._id) : selectSource(selectedSong._id);
-
+            //flagPlaying.current ? selectSourceAndPlay(selectedSong.src) : selectSource(selectedSong.src);
+            console.log(selectedSong);
         }
-    }, [selectedSong, setPlaying]);
+    }, [selectedSong]);
 
 
 

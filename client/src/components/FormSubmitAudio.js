@@ -6,9 +6,6 @@ const FormSubmitAudio = ({ fetchData, closeModal }) => {
         console.log(event.target);
         console.log(event.target.song.files);
 
-
-
-
         try {
 
             const formData = new FormData(event.target);

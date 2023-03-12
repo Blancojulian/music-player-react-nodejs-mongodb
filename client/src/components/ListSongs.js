@@ -72,7 +72,7 @@ const ListSongs = ({ songs, handleSelectSong, selectedSong, togglePlay, playing,
             {
                 isOpen && song.current != null ?
                     <ModalForm
-                        icon={<i class='bx bx-edit-alt' ></i>}
+                        icon={<i className='bx bx-edit-alt' ></i>}
                         title='Update song'
                         closeModal={closeModal}
                         form={
@@ -101,15 +101,17 @@ const ListSongs = ({ songs, handleSelectSong, selectedSong, togglePlay, playing,
                 </thead>
                 <tbody onClick={updateSong}>
                     {
-                        songs.map((song) => {
+                        songs.map((song, index) => {
                             return (
-                                <tr>
+                                <tr key={index}>
                                     <td className='id' style={{ display: 'none' }}>{song._id}</td>
-                                    <BtnPlayOrPause
-                                        handlePlay={() => selectOrTogglePlay(song._id)}
-                                        isPlaying={playOrPauseButton(song._id)}
-                                        isSelectedSong={isSelectedSong(song._id)}
-                                    />
+                                    <td className='play'>
+                                        <BtnPlayOrPause
+                                                handlePlay={() => selectOrTogglePlay(song._id)}
+                                                isPlaying={playOrPauseButton(song._id)}
+                                                isSelectedSong={isSelectedSong(song._id)}
+                                            />
+                                    </td>
                                     <td
                                         className='title'
                                         style={{ width: 150 }}
@@ -119,14 +121,16 @@ const ListSongs = ({ songs, handleSelectSong, selectedSong, togglePlay, playing,
                                         style={{ width: 150 }}
                                     >{song.artist}</td>
                                     <td className='options'>
-                                        <buttom className="btn btn-dark btn-update" data-id={song._id}>
-                                            <i class='bx bx-edit-alt' ></i>
-                                        </buttom>
+                                        <button className="btn btn-dark btn-update" data-id={song._id}>
+                                            <i className='bx bx-edit-alt' ></i>
+                                        </button>
 
-                                        <buttom
+                                        <button
                                             className="btn btn-danger"
                                             onClick={() => deleteSong(song._id)}
-                                        ><i class='bx bx-trash' ></i></buttom>
+                                        >
+                                            <i className='bx bx-trash' ></i>
+                                        </button>
                                     </td>
 
                                 </tr>

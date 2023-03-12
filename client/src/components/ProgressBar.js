@@ -21,7 +21,7 @@ const ProgressBar = ({ time, duration, setCurrentTime }) => {
 
             <div className="progress-container" ref={containerElem} style={{ width: '90%' }} onClick={setProgress}>
 
-                <div className="progress" style={(time && duration) ? { width: `${(time / duration) * 100}%` } : {}}></div>
+                <div className="progress-time" style={(time && duration) ? { width: `${(time / duration) * 100}%` } : {}}></div>
             </div>
 
             <div className=''>{minutosYSegundos(duration) || ''}</div>
